@@ -1,4 +1,5 @@
 # Getting Started with Create React App
+
 - 지원자의 성명
 - 프로젝트의 실행 방법
 - 데모 영상
@@ -8,7 +9,7 @@
     - 새로고침하면 404 에러 페이지 표출
     - "/" URL이 아닌 "/signup"등의 경로로 바로 접속할 경우 404 에러 페이지 표출 등
 
-
+태일윈드, 데이지, 리액트 라우터
 
 # Getting Started with Create React App
 
