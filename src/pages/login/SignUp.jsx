@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './login.css';
+import axios from 'axios';
 
 export default function SignUp() {
   const [form, setForm] = useState({
@@ -11,29 +12,35 @@ export default function SignUp() {
   const handleForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-  const handleError = (key, value) => {
-    setForm({ ...form, [key]: value });
+  const handleError = () => {
+    if (!validateEmail(form.email) || form.password.length < 8) {
+      setForm({ ...form, error: true });
+    } else {
+      setForm({ ...form, error: false });
+    }
+  };
+  const validateEmail = (email) => {
+    const re = /@/;
+    return re.test(email);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(form);
 
-    if (!validateEmail(form.email)) {
-      handleError('error', '이메일 형식이 아닙니다.');
-    } else if (form.password.length < 8) {
-      handleError(
-        'error',
-        '비밀번호는 8자 이상이어야 합니다.'
-      );
-    } else {
-      handleError('error', '');
+    try {
+      axios.post('https://www.pre-onboarding-selection-task.shop/auth/signup', {
+        email: form.email,
+        password: form.password,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-  };
+  useEffect(() => {
+    handleError();
+  }, [form.email, form.password]);
 
   return (
     <div className="login-wrap">
@@ -63,11 +70,11 @@ export default function SignUp() {
             onChange={handleForm}
           />
         </label>
-        <span className="text-error">{form.error}</span>
         <button
           type="submit"
           data-testid="signup-button"
           className="btn btn-accent mt-5 px-10"
+          disabled={form.error}
         >
           회원가입
         </button>
