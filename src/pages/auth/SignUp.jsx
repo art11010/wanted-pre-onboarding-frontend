@@ -1,40 +1,42 @@
 import { useEffect, useState } from 'react';
 import './login.css';
-import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import { signUp } from '../../api/api';
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     email: '',
     password: '',
-    error: '',
+    validation: false,
+    error: false,
   });
 
   const handleForm = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value, error: false });
   };
   const handleError = () => {
+    function validateEmail(email) {
+      const re = /@/;
+      return re.test(form.email);
+    }
+
     if (!validateEmail(form.email) || form.password.length < 8) {
-      setForm({ ...form, error: true });
+      setForm({ ...form, validation: true });
     } else {
-      setForm({ ...form, error: false });
+      setForm({ ...form, validation: false });
     }
   };
-  const validateEmail = (email) => {
-    const re = /@/;
-    return re.test(email);
-  };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
 
     try {
-      axios.post('https://www.pre-onboarding-selection-task.shop/auth/signup', {
-        email: form.email,
-        password: form.password,
-      });
+      await signUp(form.email, form.password);
+      navigate('/signin');
     } catch (error) {
-      console.log(error);
+      setForm({ ...form, error: true });
     }
   };
 
@@ -44,14 +46,14 @@ export default function SignUp() {
 
   return (
     <div className="login-wrap">
-      <h2 className="text-primary">Sign Up</h2>
+      <h2 className="text-primary">회원가입</h2>
       <form onSubmit={handleSubmit}>
         <label className="w-full pb-5">
           Email
           <input
             type="text"
             placeholder="Email"
-            className="input input-bordered input-secondary w-full mt-2"
+            className="input input-bordered input-accent w-full mt-2"
             data-testid="email-input"
             name="email"
             value={form.email}
@@ -63,21 +65,28 @@ export default function SignUp() {
           <input
             type="text"
             placeholder="Password"
-            className="input input-bordered input-secondary w-full mt-2"
+            className="input input-bordered input-accent w-full mt-2"
             data-testid="password-input"
             name="password"
             value={form.password}
             onChange={handleForm}
           />
         </label>
+        {form.error && <span>동일한 이메일이 이미 존재합니다.</span>}
         <button
           type="submit"
           data-testid="signup-button"
-          className="btn btn-accent mt-5 px-10"
-          disabled={form.error}
+          className="btn btn-secondary mt-5 px-10"
+          disabled={form.validation}
         >
           회원가입
         </button>
+        <span className="mt-5 text-gray-500">
+          이미 아이디가 있다면?
+          <Link to="/signin" className="ml-2 text-secondary ">
+            로그인
+          </Link>
+        </span>
       </form>
     </div>
   );
