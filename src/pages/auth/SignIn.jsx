@@ -76,7 +76,7 @@ export default function SignIn() {
             onChange={handleForm}
           />
         </label>
-        {form.error && <span>동일한 이메일이 이미 존재합니다.</span>}
+        {form.error && <span>이메일 또는 비밀번호를 확인해주세요.</span>}
         <button
           type="submit"
           data-testid="signin-button"

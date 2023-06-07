@@ -1,21 +1,15 @@
 import axios from 'axios';
 
-const baseURL = 'https://www.pre-onboarding-selection-task.shop';
+const instance = axios.create({
+  baseURL: 'https://www.pre-onboarding-selection-task.shop',
+});
 
 export const signUp = async (email, password) => {
   try {
-    const response = await axios.post(
-      `${baseURL}/auth/signup`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-      {
-        email,
-        password,
-      }
-    );
+    const response = await instance.post('/auth/signup', {
+      email,
+      password,
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -24,16 +18,27 @@ export const signUp = async (email, password) => {
 
 export const signIn = async (email, password) => {
   try {
-    const response = await axios.post(
-      `${baseURL}/auth/signin`,
+    const response = await instance.post('/auth/signin', {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const createTodo = async (token, todo) => {
+  try {
+    const response = await instance.post(
+      '/todos',
       {
         headers: {
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       },
       {
-        email,
-        password,
+        todo,
       }
     );
     return response.data;
@@ -44,7 +49,7 @@ export const signIn = async (email, password) => {
 
 export const getTodos = async (token) => {
   try {
-    const response = await axios.get(`${baseURL}/todos`, {
+    const response = await instance.get('/todos', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -55,22 +60,21 @@ export const getTodos = async (token) => {
   }
 };
 
-export const createTodo = async (token, todo) => {
+export const updateTodo = async (token, id, todo, isCompleted) => {
+  console.log(token, id, todo, isCompleted);
   try {
-    console.log(todo);
-    const response = await axios.post(
-      `${baseURL}/todos`,
+    const response = await instance.put(
+      `/todos/${id}`,
       {
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       },
       {
         todo,
+        isCompleted,
       }
     );
-    console.log(todo);
     return response.data;
   } catch (error) {
     console.log(error);
