@@ -1,11 +1,11 @@
-.login-wrap {
+.auth_box {
   @apply flex flex-col justify-center items-center;
   @apply mt-20 h-full;
 }
-.login-wrap h2 {
+.auth_box h2 {
   @apply font-bold text-2xl;
 }
-.login-wrap form {
+.auth_box form {
   @apply flex flex-col justify-center items-center;
   @apply mt-2 p-10 w-96 bg-base-100 shadow-xl rounded-3xl;
 }

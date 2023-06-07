@@ -1,7 +1,7 @@
 import App from '../App';
 import SignUp from '../pages/auth/SignUp';
 import SignIn from '../pages/auth/SignIn';
-import TodoList from '../pages/todo/TodoList';
+import Todo from '../pages/todo/Todo';
 
 export const RouterInfos = [
   {
@@ -19,7 +19,7 @@ export const RouterInfos = [
       },
       {
         path: '/todo',
-        element: <TodoList />,
+        element: <Todo />,
       },
     ],
   },

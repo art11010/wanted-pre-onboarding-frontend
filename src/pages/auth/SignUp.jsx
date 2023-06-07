@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import './login.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { signUp } from '../../api/api';
+import auth from './auth.module.css';
 
 export default function SignUp() {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ export default function SignUp() {
   }, [form.email, form.password]);
 
   return (
-    <div className="login-wrap">
+    <div className={`${auth.auth_box}`}>
       <h2 className="text-primary">회원가입</h2>
       <form onSubmit={handleSubmit}>
         <label className="w-full pb-5">
