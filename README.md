@@ -85,7 +85,7 @@
   <button data-testid="cancel-button">취소</button>
   ```
   
-  - 수정 input창에는 `data-testid="modify-input"` 속성을 부여해주세요
-  - 제출버튼에는 `data-testid="submit-button"` 속성을 부여해주세요
-  - 취소버튼에는 `data-testid="cancel-button"` 속성을 부여해주세요
+  - 수정 input창에는 `data-testid="modify-input"` 속성을 부여
+  - 제출버튼에는 `data-testid="submit-button"` 속성을 부여
+  - 취소버튼에는 `data-testid="cancel-button"` 속성을 부여
 
