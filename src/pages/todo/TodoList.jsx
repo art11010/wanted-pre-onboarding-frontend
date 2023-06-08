@@ -4,8 +4,6 @@ import todo from './todo.module.css';
 import Todo from './Todo';
 
 export default function TodoList() {
-  const token = localStorage.getItem('token');
-
   const [todos, setTodos] = useState([]);
   const [todoInput, setTodoInput] = useState('');
 
@@ -16,7 +14,7 @@ export default function TodoList() {
     if (!todoInput) return;
 
     try {
-      await createTodo(token, todoInput);
+      await createTodo(todoInput);
       setTodoInput('');
       inputRef.current.focus();
       handleGetTodos();
@@ -25,7 +23,7 @@ export default function TodoList() {
 
   const handleGetTodos = async () => {
     try {
-      const res = await getTodos(token);
+      const res = await getTodos();
       setTodos(res);
     } catch (error) {}
   };
@@ -60,7 +58,7 @@ export default function TodoList() {
       </div>
       <ul>
         {todos.map((todo) => (
-          <Todo key={todo.id} todoItem={todo} token={token} />
+          <Todo key={todo.id} todoItem={todo} />
         ))}
       </ul>
     </div>

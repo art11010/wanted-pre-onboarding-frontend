@@ -6,13 +6,15 @@
   @apply font-bold text-2xl;
 }
 .todo_box ul {
-  @apply flex flex-col items-center gap-5;
-  @apply p-10 w-96 max-h-96 bg-base-100 shadow-xl rounded-3xl overflow-y-auto;
+  @apply p-10 w-96 h-96 bg-base-100 shadow-xl rounded-3xl overflow-y-auto;
 }
 .todo_box li {
   @apply flex justify-between gap-3;
-  @apply w-80;
+  @apply pb-3;
 }
 .todo_box label {
-  @apply flex items-center gap-3;
+  @apply flex gap-3;
+}
+.todo_box span {
+  @apply break-all;
 }

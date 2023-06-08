@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const instance = axios.create({
   baseURL: 'https://www.pre-onboarding-selection-task.shop',
+  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 });
 
 export const signUp = async (email, password) => {
@@ -28,31 +29,10 @@ export const signIn = async (email, password) => {
   }
 };
 
-export const createTodo = async (token, todo) => {
+export const createTodo = async (todo) => {
   try {
-    const response = await instance.post(
-      '/todos',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      {
-        todo,
-      }
-    );
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
-
-export const getTodos = async (token) => {
-  try {
-    const response = await instance.get('/todos', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await instance.post('/todos', {
+      todo,
     });
     return response.data;
   } catch (error) {
@@ -60,24 +40,31 @@ export const getTodos = async (token) => {
   }
 };
 
-export const updateTodo = async (token, id, todo, isCompleted) => {
-  console.log(token, id, todo, isCompleted);
+export const getTodos = async () => {
   try {
-    const response = await instance.put(
-      `/todos/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      },
-      {
-        todo,
-        isCompleted,
-      }
-    );
+    const response = await instance.get('/todos');
     return response.data;
   } catch (error) {
-    console.log(error);
+    throw new Error(error.response.data.message);
+  }
+};
+
+export const updateTodo = async (id, todo, isCompleted) => {
+  try {
+    const response = await instance.put(`/todos/${id}`, {
+      todo,
+      isCompleted,
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message);
+  }
+};
+export const deleteTodo = async (id) => {
+  try {
+    const response = await instance.delete(`/todos/${id}`);
+    return response.data;
+  } catch (error) {
     throw new Error(error.response.data.message);
   }
 };
