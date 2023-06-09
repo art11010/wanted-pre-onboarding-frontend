@@ -1,20 +1,19 @@
-import { useState } from 'react';
-import { updateTodo, deleteTodo } from '../../api/api';
+import { useEffect, useState } from 'react';
 
-export default function Todo({ todoItem }) {
+export default function Todo({ todoItem, onUpdateTodo, onDeleteTodo }) {
   const { id, todo, isCompleted } = todoItem;
 
   const [inputModify, setInputModify] = useState(todo);
   const [checkModify, setCheckModify] = useState(isCompleted);
   const [activeModify, setActiveModify] = useState(false);
 
-  const handleUpdateTodo = () => {
-    updateTodo(id, inputModify, !checkModify);
+  const handleDeleteTodo = () => {
+    onDeleteTodo(id);
   };
 
-  const handleDeleteTodo = () => {
-    deleteTodo(id);
-  };
+  useEffect(() => {
+    onUpdateTodo(id, inputModify, checkModify);
+  }, [inputModify, checkModify]);
 
   return (
     <li>
@@ -27,7 +26,6 @@ export default function Todo({ todoItem }) {
               checked={checkModify}
               onChange={() => {
                 setCheckModify(!checkModify);
-                handleUpdateTodo();
               }}
             />
             <span>{inputModify}</span>
@@ -35,7 +33,7 @@ export default function Todo({ todoItem }) {
           <div className="shrink-0">
             <button
               className="text-sm"
-              data-testid="activeModify-button"
+              data-testid="modify-button"
               onClick={() => setActiveModify(!activeModify)}
             >
               수정
@@ -53,7 +51,7 @@ export default function Todo({ todoItem }) {
         <>
           <input
             type="text"
-            data-testid="activeModify-input"
+            data-testid="modify-input"
             className="input input-bordered input-accent w-full h-10"
             value={inputModify}
             onChange={(e) => setInputModify(e.target.value)}
@@ -63,13 +61,18 @@ export default function Todo({ todoItem }) {
               className="text-sm"
               data-testid="submit-button"
               onClick={() => {
-                handleUpdateTodo();
                 setActiveModify(!activeModify);
               }}
             >
               제출
             </button>
-            <button className="ml-2 text-sm" data-testid="cancel-button">
+            <button
+              className="ml-2 text-sm"
+              data-testid="cancel-button"
+              onClick={() => {
+                setActiveModify(!activeModify);
+              }}
+            >
               취소
             </button>
           </div>

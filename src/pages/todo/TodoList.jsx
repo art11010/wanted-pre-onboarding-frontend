@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { getTodos, createTodo } from '../../api/api';
-import todo from './todo.module.css';
-import Todo from './Todo';
+import { getTodos, createTodo, updateTodo, deleteTodo } from '../../api/api';
+import todoCss from './todoCss.module.css';
+import Todo from '../../components/todo/Todo';
 
 export default function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -18,14 +18,35 @@ export default function TodoList() {
       setTodoInput('');
       inputRef.current.focus();
       handleGetTodos();
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleGetTodos = async () => {
     try {
       const res = await getTodos();
       setTodos(res);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdateTodo = async (id, inputModify, checkModify) => {
+    try {
+      await updateTodo(id, inputModify, checkModify);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteTodo = async (id) => {
+    try {
+      await deleteTodo(id);
+      handleGetTodos();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -33,8 +54,8 @@ export default function TodoList() {
   }, []);
 
   return (
-    <div className={`${todo.todo_box}`}>
-      <h2 className="text-primary">TODO List</h2>
+    <div className={todoCss.todo_box}>
+      <h2 className="text-primary">할 일 목록</h2>
       <div className="mt-10 pb-2">
         <form onSubmit={handleCreateTodo} className="flex gap-2">
           <input
@@ -58,7 +79,12 @@ export default function TodoList() {
       </div>
       <ul>
         {todos.map((todo) => (
-          <Todo key={todo.id} todoItem={todo} />
+          <Todo
+            key={todo.id}
+            todoItem={todo}
+            onUpdateTodo={handleUpdateTodo}
+            onDeleteTodo={handleDeleteTodo}
+          />
         ))}
       </ul>
     </div>

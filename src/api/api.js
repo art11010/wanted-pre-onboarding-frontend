@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const instance = axios.create({
   baseURL: 'https://www.pre-onboarding-selection-task.shop',
-  headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
 });
 
 export const signUp = async (email, password) => {
@@ -31,9 +30,17 @@ export const signIn = async (email, password) => {
 
 export const createTodo = async (todo) => {
   try {
-    const response = await instance.post('/todos', {
-      todo,
-    });
+    const response = await instance.post(
+      '/todos',
+      {
+        todo,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -42,7 +49,11 @@ export const createTodo = async (todo) => {
 
 export const getTodos = async () => {
   try {
-    const response = await instance.get('/todos');
+    const response = await instance.get('/todos', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
@@ -51,18 +62,31 @@ export const getTodos = async () => {
 
 export const updateTodo = async (id, todo, isCompleted) => {
   try {
-    const response = await instance.put(`/todos/${id}`, {
-      todo,
-      isCompleted,
-    });
+    const response = await instance.put(
+      `/todos/${id}`,
+      {
+        todo,
+        isCompleted,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
   }
 };
+
 export const deleteTodo = async (id) => {
   try {
-    const response = await instance.delete(`/todos/${id}`);
+    const response = await instance.delete(`/todos/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.message);
