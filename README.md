@@ -1,13 +1,17 @@
 # 원티드 프리온보딩 프론트엔드 - 선발 과제
-
+  
   - 이예지
-  - git clone 후, `npm install & npm start` 명령어를 통해서 바로 정상동작이 가능
-  - *데모 영상
+  - git clone 후, `npm install & npm run start` 명령어를 통해서 바로 정상동작이 가능
+  - 배포 링크 : [https://yezi-pre-onboarding.netlify.app](https://yezi-pre-onboarding.netlify.app)
   - 사용 라이브러리 목록
     - React Router
     - Axios
     - tailwind, daisyui
     - *typescript
+  - 데모 영상
+
+     https://user-images.githubusercontent.com/49858735/244742820-d0851978-ae43-44df-ba28-9114ce670729.mp4
+
 
 ---
 
